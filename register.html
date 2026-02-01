@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+          <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SellSync Navigation</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+         <script src="/js/script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+          <div class="nav-container">
+        <div class="title">
+            <p>Sell<span>Sync</span></p>
+        </div>
+        <ul class="nav-items" id="navitems">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <!--<li><a href="#">About Us</a></li>-->
+            <li><a href="contactus.html">Contact Us</a></li>
+            <li><a href="Login.html">Login/Signup</a></li>
+        </ul>
+        <div class="icon" id="menuIcon">&#9776;</div>
+    </div>
+<div class="signup-container">    
+    <div class="reg-container" id="container">
+        <div class="form-panel">
+            <div class="form">
+                <h2>Sign Up</h2>
+                <div class="role-selection">
+                    <label>Select Your Role</label>
+                    <div class="role-options">
+                        <button class="role-button active" data-role="admin">Admin</button>
+                        <button class="role-button" data-role="manufacturer">Manufacturer</button>
+                        <button class="role-button" data-role="wholesaler">Wholesaler</button>
+                    </div>
+                </div>
+  <form id="signupForm" action="http://localhost:8080/register" method="post">
+    <!-- Admin-specific -->
+    <div id="admin-fields" class="role-fields">
+        <div class="input-group">
+            <i class='bx bx-user'></i>
+            <input type="text" name="username" id="username" placeholder="Username" required>
+        </div>
+    </div>
+
+    <!-- Manufacturer Fields -->
+    <div id="manufacturer-fields" class="role-fields">
+        <div class="input-group">
+            <i class='bx bxs-building'></i>
+            <input type="text" name="organizationName" placeholder="Organization Name" required>
+        </div>
+        <div class="input-group">
+            <i class='bx bxs-map'></i>
+            <input type="text" name="address" placeholder="Address" required>
+        </div>
+        <div class="input-group">
+            <i class='bx bxs-id-card'></i>
+            <input type="text" name="gstNumber" placeholder="GST Number" required>
+        </div>
+    </div>
+
+    <!-- Wholesaler Fields -->
+    <div id="wholesaler-fields" class="role-fields">
+        <div class="input-group">
+            <i class='bx bxs-building'></i>
+            <input type="text" name="organizationName" placeholder="Organization Name" required>
+        </div>
+        <div class="input-group">
+            <i class='bx bxs-map'></i>
+            <input type="text" name="address" placeholder="Address" required>
+        </div>
+        <div class="input-group">
+            <i class='bx bxs-id-card'></i>
+            <input type="text" name="gstNumber" placeholder="GST Number" required>
+        </div>
+    </div>
+    <!-- Common field -->
+   
+    <div class="input-group">
+        <i class='bx bx-envelope'></i>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+    </div>
+      
+    <div class="input-group">
+        <i class='bx bx-phone'></i>
+        <input type="tel" name="phone" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
+    </div>
+
+    
+    <div class="input-group">
+        <i class='bx bxs-lock-alt'></i>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+    </div>
+
+    <div class="input-group">
+        <i class='bx bxs-lock-alt'></i>
+        <input type="password" name="confirmpassword" id="confirmPassword" placeholder="Confirm Password" required>
+    </div>
+
+
+    <div class="signup-btn">
+        <button type="submit">Sign Up</button>
+    </div>
+</form>
+
+                <p>Already have an account? <a href="Login.html">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="reg-welcome">
+        <h1>JOIN WITH US</h1>
+    </div>
+</div>
+    
+          <div class="footer">
+    <div class="company-information">
+        
+        <h3>Company Information</h3>
+        <ul>
+            <li><a href="#" >About Sellsync</a></li>
+        <li><a href="">Mission & Vision</a></li>
+        <li><a href="#">Contact Details</a></li>
+        </ul>
+    </div>
+        <div class="quick-links">
+            <h3>Quick Links</h3>
+        <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#" >About Us</a></li>
+        <li><a href="#" >Services</a></li>
+        <li><a href="#" >Pricing</a></li>
+        <li><a href="#" >FAQ</a></li>   
+        </ul>
+        </div>
+            <div class="support">
+            <h3>Support & Resources</h3>
+        <ul>
+        <li><a href="#" >Help Center</a></li>
+        <li><a href="#" >Documentation</a></li>
+        <li><a href="#" >Terms & Conditions</a></li>
+        <li><a href="#" >Privacy Policy</a></li>
+        <li><a href="#" >Refund & Cancellation Policy</a></li>   
+        </ul>
+        </div>
+            <div class="business-features">
+            <h3>Business Features</h3>
+        <ul>
+        <li><a href="#" >How It Works</a></li>
+        <li><a href="#" >Partner with Us</a></li>
+        <li><a href="#" >Seller Benefits</a></li>  
+        </ul>
+        </div>
+        
+                 <div class="social-links">
+            <h3> Social Media Links</h3>
+        <ul>
+        <li><a href="#" >LinkedIn</a></li>
+        <li><a href="#" >Twitter</a></li>
+        <li><a href="#" >Facebook</a></li>  
+            <li><a href="#" >Instagram</a></li>
+        </ul>
+        </div>
+       
+    </div>
+     <div class="copy-right">
+        <h5>© 2025 Sellsync. All rights reserved.</h5>
+        </div>
+    </body>
+</html>

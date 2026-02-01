@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Verification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.6rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .verification-badge {
+            position: absolute;
+            top: -30px;
+            right: 30px;
+            background: #ff9e00;
+            color: white;
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.8rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+            animation: pulse 2s infinite;
+            border: 4px solid white;
+        }
+
+        .content {
+            display: flex;
+            padding: 40px 30px;
+            gap: 30px;
+        }
+
+        .profile-section,
+        .status-section {
+            flex: 1;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4361ee 0%, #3a0ca3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 25px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .user-details h2 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .user-details p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 35px 0;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-value {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #4361ee;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eef0f7;
+        }
+
+        .status-card h3 {
+            color: #3a0ca3;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .progress-container {
+            background: #e0e6f5;
+            height: 12px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4361ee 0%, #3a0ca3 100%);
+            width: 65%;
+            border-radius: 10px;
+            animation: progress-animation 2.5s ease-in-out;
+        }
+
+        .verification-steps {
+            list-style: none;
+        }
+
+        .verification-steps li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .verification-steps li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 18px;
+            background: #edf0ff;
+            color: #4361ee;
+            font-size: 1.2rem;
+        }
+
+        .step-icon.completed {
+            background: #4361ee;
+            color: white;
+        }
+
+        .step-icon.in-progress {
+            animation: spin 2s linear infinite;
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .step-text strong {
+            display: block;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .step-text p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .verification-info {
+            background: #f0f3ff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid #4361ee;
+        }
+
+        .verification-info h3 {
+            color: #3a0ca3;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .verification-info p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 40px;
+            /* Optional: space from top */
+        }
+
+        .button-style {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-style:hover {
+            background-color: #45a049;
+        }
+
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 158, 0, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 12px rgba(255, 158, 0, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 158, 0, 0);
+            }
+        }
+
+        @keyframes progress-animation {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 65%;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                padding: 25px 20px;
+                gap: 20px;
+            }
+
+            .profile-section,
+            .status-section {
+                padding: 20px 15px;
+            }
+
+            .avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+
+            .user-details h2 {
+                font-size: 1.6rem;
+            }
+
+            .user-details p {
+                font-size: 1rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stat-item {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.9rem;
+            }
+
+            .status-card {
+                padding: 20px;
+            }
+
+            .status-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .progress-container {
+                height: 10px;
+            }
+
+            .verification-steps li {
+                align-items: flex-start;
+            }
+
+            .step-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .step-text strong {
+                font-size: 1rem;
+            }
+
+            .step-text p {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .verification-badge {
+                width: 65px;
+                height: 65px;
+                font-size: 1.8rem;
+                top: -20px;
+                right: 15px;
+            }
+
+            .verification-info {
+                padding: 20px;
+            }
+
+            .verification-info h3 {
+                font-size: 1.15rem;
+            }
+
+            .verification-info p {
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .verification-badge {
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+                top: -18px;
+                right: 10px;
+            }
+
+            .step-text strong {
+                font-size: 0.95rem;
+            }
+
+            .step-text p {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="verification-badge"><i class="fas fa-user-check"></i></div>
+            <h1>Profile Under Verification</h1>
+            <p>Your profile is currently being reviewed for verification. This process usually takes 1–2 business days.
+            </p>
+        </div>
+
+        <div class="content">
+
+
+
+            <div class="verification-info">
+                <h3>Verification Process</h3>
+                <p>Our team is reviewing your submitted documents and profile information to ensure authenticity and
+                    compliance with our platform standards.</p>
+                <p>You’ll receive a notification once verification is complete.</p>
+            </div>
+
+
+            <div class="status-section">
+                <div class="status-card">
+                    <h3>Verification Status</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <p>Estimated completion: 1–2 business days</p>
+                </div>
+
+                <h3>Verification Steps</h3>
+                <ul class="verification-steps">
+                    <li>
+                        <div class="step-icon completed"><i class="fas fa-check"></i></div>
+                        <div class="step-text">
+                            <strong>Profile Submission</strong>
+                            <p>Profile details received</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-icon completed"><i class="fas fa-check"></i></div>
+                        <div class="step-text">
+                            <strong>Document Upload</strong>
+                            <p>ID verification documents submitted</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-icon in-progress"><i class="fas fa-sync-alt"></i></div>
+                        <div class="step-text">
+                            <strong>Review Process</strong>
+                            <p>Currently under team review</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="step-icon"><i class="far fa-clock"></i></div>
+                        <div class="step-text">
+                            <strong>Verification Complete</strong>
+                            <p>Pending final approval</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <input class="button-style" type="button" value="Home" onclick="window.location.href='index.html'" />
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const progressBar = document.querySelector('.progress-bar');
+            setTimeout(() => {
+                progressBar.style.width = '75%';
+            }, 2500);
+
+            const inProgressIcon = document.querySelector('.step-icon.in-progress');
+            setInterval(() => {
+                inProgressIcon.style.boxShadow = '0 0 0 0 rgba(67, 97, 238, 0.7)';
+                setTimeout(() => {
+                    inProgressIcon.style.boxShadow = '0 0 0 8px rgba(67, 97, 238, 0)';
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>
