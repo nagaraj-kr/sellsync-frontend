@@ -93,6 +93,7 @@ if (registerForm) {
         try {
             const res = await fetch(`${BASE_URL}/api/register/${selectedRole}`, {
                 method: "POST",
+                credentials:"include",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
@@ -132,6 +133,7 @@ if (registerForm) {
     //try {
     //  const response = await fetch(`${BASE_URL}/api/auth/login`, {
     //    method: "POST",
+    //    credentials:"include",
     //    headers: {
     //      "Content-Type": "application/json"
     //    },

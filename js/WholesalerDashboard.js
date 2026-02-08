@@ -84,7 +84,9 @@ function fetchProducts(filterCategory = "") {
     ? `${apiBaseUrl}/wholesaler/products/browse?category=${filterCategory}`
     : `${apiBaseUrl}/wholesaler/products/browse`;
 
-  fetch(url)
+  fetch(url,{
+     credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       productGrid.innerHTML = "";
@@ -458,7 +460,7 @@ function attachCartEventListeners() {
 
 // ======================= ORDERS & DASHBOARD ===========================
 function fetchMyOrders() {
-  fetch(`${apiBaseUrl}/api/orders/my`)
+  fetch(`${apiBaseUrl}/api/orders/my`,{ credentials:"include"})
     .then(res => res.json())
     .then(orders => {
       const tbody = $("#orders-section table tbody");
@@ -486,19 +488,19 @@ function fetchMyOrders() {
 async function loadDashboardStats() {
   const token = localStorage.getItem("token");
   try {
-    const totalOrdersRes = await fetch(`${apiBaseUrl}/api/orders/my`, {
+    const totalOrdersRes = await fetch(`${apiBaseUrl}/api/orders/my`, { credentials:"include",
       headers: { "Authorization": "Bearer " + token }
     });
     const totalOrdersData = await totalOrdersRes.json();
     $("#total-orders").innerText = totalOrdersData.length;
 
-    const pendingRes = await fetch(`${apiBaseUrl}/api/orders/my/pending`, {
+    const pendingRes = await fetch(`${apiBaseUrl}/api/orders/my/pending`, { credentials:"include",
       headers: { "Authorization": "Bearer " + token }
     });
     const pendingData = await pendingRes.json();
     $("#pending-orders").innerText = pendingData.length;
 
-    const suppliersRes = await fetch(`${apiBaseUrl}/api/manufacturer`, {
+    const suppliersRes = await fetch(`${apiBaseUrl}/api/manufacturer`, { credentials:"include",
       headers: { "Authorization": "Bearer " + token }
     });
     const suppliersData = await suppliersRes.json();
@@ -526,6 +528,7 @@ function setupCheckout() {
     const amount = total * 100;
     fetch(`${apiBaseUrl}/api/payment/create-order`, {
       method: "POST",
+       credentials:"include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount })
     })
@@ -558,6 +561,7 @@ function setupCheckout() {
   // 👉 Send order details to backend
   fetch(`${apiBaseUrl}/api/orders/checkout`, {
     method: "POST",
+     credentials:"include",
     headers: {
       "Content-Type": "application/json"
     },
@@ -739,7 +743,7 @@ function loadPendingOrders() {
   const tbody = document.getElementById("orders-tbody");
   if (!tbody) return; // safety check
 
-  fetch(`${apiBaseUrl}/api/orders/my/pending`, {
+  fetch(`${apiBaseUrl}/api/orders/my/pending`, {   credentials:"include",
     headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
   })
     .then(res => {

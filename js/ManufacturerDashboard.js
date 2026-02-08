@@ -89,7 +89,9 @@ function initDashboard() {
 
 function loadDashboardStats() {
   // ✅ Load dashboard summary (orders, revenue)
-  fetch(`${BASE_URL}/api/manufacturer/dashboardsummary`)
+  fetch(`${BASE_URL}/api/manufacturer/dashboardsummary`,{
+    credentials:"include"
+  })
     .then(res => res.json())
     .then(d => {
       $('#ordersReceived').textContent = d.totalOrders || 0;
@@ -100,6 +102,7 @@ function loadDashboardStats() {
   // ✅ Load manufacturer profile to show organization name
   fetch('/api/manufacturer/profile', {
     method: 'GET',
+    credentials:"include",
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -122,7 +125,9 @@ function loadDashboardStats() {
     });
 
   // ✅ Load total products separately
-  fetch(`${BASE_URL}/api/products`)
+  fetch(`${BASE_URL}/api/products`,{
+     credentials:"include"
+  })
     .then(res => {
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       return res.json();
@@ -136,7 +141,10 @@ function loadDashboardStats() {
     });
 
   // ✅ Load total wholesalers separately
-  fetch(`${BASE_URL}/api/wholesaler`)
+  fetch(`${BASE_URL}/api/wholesaler`,
+       {
+     credentials:"include"
+  })
     .then(res => {
       if (!res.ok) throw new Error(`HTTP error ${res.status}`);
       return res.json();
@@ -158,6 +166,7 @@ function loadRecentPendingOrders() {
 
   fetch(`${BASE_URL}/api/orders/manufacturer/orders`, {
     method: "GET",
+    credentials:"include",
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -274,7 +283,7 @@ saveProductBtn.addEventListener("click", () => {
     : `${BASE_URL}/api/products`;
   const method = isEdit ? "PUT" : "POST";
 
-  fetch(url, { method, body: formData })
+  fetch(url, { method, body: formData, credentials:"include" })
     .then(res => {
       if (!res.ok) throw new Error("Failed to save product");
       return res.json();
@@ -325,7 +334,9 @@ function loadProducts() {
   }
   tbody.innerHTML = "";
 
-  fetch(`${BASE_URL}/api/products`)
+  fetch(`${BASE_URL}/api/products`,{
+ credentials:"include"
+})
     .then(response => {
       if (!response.ok) {
         throw new Error(`Failed to load products. Status: ${response.status}`);
@@ -386,7 +397,7 @@ function loadProducts() {
             confirmButtonText: "Yes, pause it!"
           }).then(result => {
             if (result.isConfirmed) {
-              fetch(`${BASE_URL}/api/products/${product.id}/pause`, { method: "PUT" })
+              fetch(`${BASE_URL}/api/products/${product.id}/pause`, { method: "PUT", credentials:"include" })
                 .then(res => {
                   if (!res.ok) throw new Error("Pause failed");
                   row.remove();
@@ -447,7 +458,9 @@ function renderPaginationControls(containerId, currentPage, totalPages, onPageCh
 // Main loadOrders with pagination and approve/reject
 function loadOrders() {
   console.log('📦 Loading orders...');
-  fetch(`${BASE_URL}/api/orders/manufacturer/orders`)
+  fetch(`${BASE_URL}/api/orders/manufacturer/orders`,{
+     credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       // Split orders
@@ -576,7 +589,9 @@ function loadWholesalerRequests() {
   // Clear old rows
   tbody.innerHTML = '';
 
-  fetch(`${BASE_URL}/api/requests`)
+  fetch(`${BASE_URL}/api/requests`,{
+     credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       data.forEach(req => {
@@ -622,7 +637,8 @@ function loadWholesalerRequests() {
 // ✅ Approve API
 function approveRequest(requestId) {
   fetch(`${BASE_URL}/api/requests/${requestId}/status?status=Approved`, {
-    method: 'PUT'
+    method: 'PUT',
+     credentials:"include"
   })
     .then(res => {
       if (res.ok) {
@@ -641,7 +657,8 @@ function approveRequest(requestId) {
 // ✅ Reject API
 function rejectRequest(requestId) {
   fetch(`${BASE_URL}/api/requests/${requestId}/status?status=Rejected`, {
-    method: 'PUT'
+    method: 'PUT',
+     credentials:"include"
   })
     .then(res => {
       if (res.ok) {
@@ -669,7 +686,9 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadManufacturerProfile() {
   console.log("👤 Loading manufacturer profile...");
   try {
-    const response = await fetch(`${BASE_URL}/api/manufacturer/profile`);
+    const response = await fetch(`${BASE_URL}/api/manufacturer/profile`,{
+       credentials:"include"
+    });
     if (response.ok) {
       const data = await response.json();
 
@@ -713,6 +732,7 @@ document.getElementById("changePasswordBtn").addEventListener("click", async fun
   try {
     const response = await fetch(`${BASE_URL}/api/manufacturer/change-password`, {
       method: "POST",
+       credentials:"include",
       headers: {
         "Content-Type": "application/json"
       },

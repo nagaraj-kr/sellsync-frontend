@@ -2,7 +2,9 @@
 const BASE_URL = "https://sellsync-backend-production.up.railway.app";
 
 function loadRequests() {
-  fetch(`${BASE_URL}/api/requests/all`)
+  fetch(`${BASE_URL}/api/requests/all`,{
+    credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById("requests-list");
@@ -39,7 +41,8 @@ function loadRequests() {
 }
 function approveRequest(type, id) {
   fetch(`${BASE_URL}/api/requests/approve/${type}/${id}`, {
-    method: "POST"
+    method: "POST",
+    credentials:"include"
   })
   .then(() => {
     alert("Approved successfully!");
@@ -50,7 +53,8 @@ function approveRequest(type, id) {
 
 function rejectRequest(type, id) {
   fetch(`${BASE_URL}/api/requests/reject/${type}/${id}`, {
-    method: "DELETE"
+    method: "DELETE",
+    credentials:"include"
   })
   .then(() => {
     alert("Rejected successfully!");
@@ -73,7 +77,8 @@ document.addEventListener("DOMContentLoaded", loadRequests);
      fetch(`${BASE_URL}/api/admin/dashboard-data`, {
   headers: {
     "Authorization": "Bearer " + localStorage.getItem("token")
-  }
+  },
+  credentials:"include"
 })
 .then(res => res.json())
 .then(data => {
@@ -132,7 +137,8 @@ document.addEventListener("DOMContentLoaded", loadRequests);
   fetch(`${BASE_URL}/api/admin/me`, {
     headers: {
       "Authorization": "Bearer " + localStorage.getItem("token")
-    }
+    },
+     credentials:"include"
   })
   .then(res => res.json())
   .then(data => {
@@ -154,7 +160,9 @@ if (elements.length > 0) {
      
      
      document.addEventListener("DOMContentLoaded", function () {
-    fetch(`${BASE_URL}/api/admin/dashboard-summary`)
+    fetch(`${BASE_URL}/api/admin/dashboard-summary`,{
+       credentials:"include"
+    })
       .then(response => response.json())
       .then(data => {
         document.getElementById("total-users").textContent = data.totalUsers;
@@ -216,7 +224,7 @@ function deleteManufacturer(id) {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
-        }
+        }, credentials:"include"
       })
       .then(response => {
         if (!response.ok) {
@@ -257,7 +265,7 @@ function activateManufacturer(id) {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
-        }
+        }, credentials:"include"
       })
       .then(response => {
         if (!response.ok) {
@@ -289,7 +297,9 @@ function loadManufacturers() {
   activeBody.innerHTML = "";
   inactiveBody.innerHTML = "";
 
-  fetch(`${BASE_URL}/api/manufacturer/active`)
+  fetch(`${BASE_URL}/api/manufacturer/active`{
+         credentials:"include"
+        })
     .then(response => response.json())
     .then(data => {
       data.forEach(m => {
@@ -322,7 +332,9 @@ function loadManufacturers() {
       });
     });
 
-  fetch(`${BASE_URL}/api/manufacturer/inactive`)
+  fetch(`${BASE_URL}/api/manufacturer/inactive`,{
+     credentials:"include"
+  })
     .then(response => response.json())
     .then(data => {
       data.forEach(m => {
@@ -359,7 +371,8 @@ function deleteWholesaler(id) {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
-        }
+        },
+         credentials:"include"
       })
       .then(response => {
         if (!response.ok) {
@@ -387,7 +400,9 @@ function deleteWholesaler(id) {
 
 
 function editManufacturer(id) {
-  fetch(`${BASE_URL}/api/manufacturer/${id}`)
+  fetch(`${BASE_URL}/api/manufacturer/${id}`,{
+     credentials:"include"
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -405,7 +420,9 @@ function editManufacturer(id) {
 }
 
 function editWholesaler(id) {
-  fetch(`${BASE_URL}/api/wholesaler/${id}`)
+  fetch(`${BASE_URL}/api/wholesaler/${id}`,{
+     credentials:"include"
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -445,7 +462,7 @@ function deleteManufacturer(id) {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
-        }
+        }, credentials:"include"
       })
       .then(response => {
         if (!response.ok) {
@@ -538,6 +555,7 @@ function openModal(type, data = null) {
 
   fetch(url, {
     method: method,
+     credentials:"include",
     headers: {
       "Content-Type": "application/json"
     },
@@ -607,7 +625,9 @@ function loadWholesalers() {
   inactiveBody.innerHTML = "";
 
   // Load active wholesalers
-  fetch(`${BASE_URL}/api/wholesaler/active`)
+  fetch(`${BASE_URL}/api/wholesaler/active`,{
+     credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       data.forEach(w => {
@@ -641,7 +661,9 @@ function loadWholesalers() {
     });
 
   // Load inactive wholesalers
-  fetch(`${BASE_URL}/api/wholesaler/inactive`)
+  fetch(`${BASE_URL}/api/wholesaler/inactive`,{
+     credentials:"include"
+  })
     .then(res => res.json())
     .then(data => {
       data.forEach(w => {
@@ -684,7 +706,7 @@ function deleteWholesaler(id) {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
-        }
+        }, credentials:"include"
       })
       .then(response => {
         if (!response.ok) {
@@ -724,6 +746,7 @@ function activateWholesaler(id) {
     if (result.isConfirmed) {
       fetch(`${BASE_URL}/api/wholesaler/activate/${id}`, {
         method: 'PUT',
+         credentials:"include",
         headers: {
           "Content-Type": "application/json"
         }
@@ -755,7 +778,9 @@ function activateWholesaler(id) {
      
      document.addEventListener("DOMContentLoaded", () => {
   // 🚀 Fetch currently logged-in admin info on page load
-  fetch("/api/admin/settings/current")
+  fetch("/api/admin/settings/current",{
+     credentials:"include"
+  })
     .then(response => {
       if (!response.ok) {
         if (response.status === 401) throw new Error("Not logged in");
@@ -802,6 +827,7 @@ function saveProfile() {
 
   fetch("/api/admin/settings/update-profile", {
     method: "PUT",
+     credentials:"include",
     headers: {
       "Content-Type": "application/json"
     },
@@ -864,6 +890,7 @@ function changePassword() {
 
   fetch("/api/admin/settings/change-password", {
     method: "PUT",
+     credentials:"include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
