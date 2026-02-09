@@ -145,29 +145,28 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) {
                 throw new Error("Login Failed");
             }
+const role = data.role;
 
-            const data = await response.json();
+Swal.fire({
+    icon: "success",
+    title: "Login Success"
+}).then(() => {
 
-            console.log("Login success:", data);
+    if(role === "ADMIN"){
+        window.location.href = "admindashboard.html";
+    }
+    else if(role === "MANUFACTURER"){
+        window.location.href = "manufacturerdashboard.html";
+    }
+    else if(role === "WHOLESALER"){
+        window.location.href = "wholesalerdashboard.html";
+    }
+    else{
+        Swal.fire("Error","Unknown role","error");
+    }
 
-            Swal.fire({
-                icon: "success",
-                title: "Login Success"
-            }).then(() => {
-                window.location.href = "admindashboard.html";
-            });
+});
 
-        } catch (error) {
-
-            console.error(error);
-
-            Swal.fire({
-                icon: "error",
-                title: "Login Failed",
-                text: "Invalid email or password"
-            });
-
-        }
 
     });
 
