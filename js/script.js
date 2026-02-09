@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 icon: "success",
                 title: "Login Success"
             }).then(() => {
-                window.location.href = "admin-dashboard.html";
+                window.location.href = "admindashboard.html";
             });
 
         } catch (error) {
