@@ -112,52 +112,63 @@ if (registerForm) {
         }
     });
 }
+});
 
+document.addEventListener("DOMContentLoaded", () => {
 
+    const form = document.getElementById("loginForm");
 
-    //// ========== Login Form Submission ==========
-//
-//
-  //const form = document.querySelector('#loginForm');
-//
-  //if (!form) return;
-//
-  //form.addEventListener('submit', async (e) => {
-    //e.preventDefault();
-//
-    //const formData = {
-    //  email: form.email.value,
-    //  password: form.password.value
-    //};
-//
-    //try {
-    //  const response = await fetch(`${BASE_URL}/api/auth/login`, {
-    //    method: "POST",
-    //    credentials:"include",
-    //    headers: {
-    //      "Content-Type": "application/json"
-    //    },
-    //    body: JSON.stringify(formData),
-    //  });
-//
-    //  const result = await response.text();
-//
-    //  if (response.ok) {
-    //    // ✅ Successful login
-    //    Swal.fire("Success!", "Login successful", "success").then(() => {
-    //     window.location.href = "/admindashboard.html"; // Change to your actual dashboard page
-    //    });
-    //  } else {
-    //    // ❌ Invalid login
-    //    Swal.fire("Error!", result || "Invalid email or password", "error");
-    //  }
-    //} catch (error) {
-    //  console.error("Login error:", error);
-    //  Swal.fire("Error!", "Something went wrong during login", "error");
-    //}
-  //});
+    form.addEventListener("submit", async (e) => {
 
+        e.preventDefault();
 
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
+        try {
+
+            const response = await fetch(
+                "https://sellsync-backend-production.up.railway.app/api/auth/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Login Failed");
+            }
+
+            const data = await response.json();
+
+            console.log("Login success:", data);
+
+            Swal.fire({
+                icon: "success",
+                title: "Login Success"
+            }).then(() => {
+                window.location.href = "admin-dashboard.html";
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Login Failed",
+                text: "Invalid email or password"
+            });
+
+        }
+
+    });
 
 });
