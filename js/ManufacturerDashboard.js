@@ -165,7 +165,6 @@ function loadRecentPendingOrders() {
 
   fetch(`${BASE_URL}/api/orders/manufacturer/orders`, {
     method: "GET",
-    credentials:"include",
     headers: {
       "Authorization": "Bearer " + token
     }
@@ -564,7 +563,6 @@ function loadOrders() {
 function handleAction(orderId, status) {
   fetch(`${BASE_URL}/api/orders/${orderId}/status`, {
     method: 'PUT',
-    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ status: status })
   })
@@ -731,7 +729,6 @@ document.getElementById("changePasswordBtn").addEventListener("click", async fun
   try {
     const response = await fetch(`${BASE_URL}/api/manufacturer/change-password`, {
       method: "POST",
-       credentials:"include",
       headers: {
         "Content-Type": "application/json"
       },
