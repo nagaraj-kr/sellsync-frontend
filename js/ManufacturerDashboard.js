@@ -100,7 +100,7 @@ function loadDashboardStats() {
     .catch(err => console.error('❌ Dashboard error', err));
 
   // ✅ Load manufacturer profile to show organization name
-  fetch('/api/manufacturer/profile', {
+  fetch(`${BASE_URL}/api/manufacturer/profile`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
