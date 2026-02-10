@@ -102,7 +102,6 @@ function loadDashboardStats() {
   // ✅ Load manufacturer profile to show organization name
   fetch('/api/manufacturer/profile', {
     method: 'GET',
-    credentials:"include",
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token')
