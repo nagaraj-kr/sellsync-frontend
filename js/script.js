@@ -1,224 +1,221 @@
 const BASE_URL = "https://sellsync-backend-production.up.railway.app";
 
-
 // =========================
 // NAVIGATION TOGGLE
 // =========================
 document.addEventListener("DOMContentLoaded", function () {
 
-    const menuIcon = document.getElementById("menuIcon");
-    const navItems = document.getElementById("navitems");
+const menuIcon = document.getElementById("menuIcon");
+const navItems = document.getElementById("navitems");
 
-    if(menuIcon && navItems){
-        menuIcon.addEventListener("click", function () {
-            navItems.classList.toggle("active");
-        });
-    }
+if(menuIcon && navItems){
+    menuIcon.addEventListener("click", function () {
+        navItems.classList.toggle("active");
+    });
+}
 
 });
 
-
 // =========================
-// ROLE SELECTION + REGISTER
+// ROLE SELECTION
 // =========================
 document.addEventListener("DOMContentLoaded", function () {
 
-    let selectedRole = "admin";
-    const roleButtons = document.querySelectorAll(".role-button");
+let selectedRole = "manufacturer";
 
-    function updateRoleFields(role) {
+const roleButtons = document.querySelectorAll(".role-button");
 
-        selectedRole = role;
+function updateRoleFields(role){
 
-        document.querySelectorAll(".role-fields").forEach(section => {
-            section.style.display = "none";
-            section.querySelectorAll("input")
-                .forEach(input => input.removeAttribute("required"));
-        });
+    selectedRole = role;
 
-        const selectedFields = document.getElementById(`${selectedRole}-fields`);
+    document.querySelectorAll(".role-fields").forEach(section => {
+        section.style.display = "none";
+        section.querySelectorAll("input")
+            .forEach(input => input.removeAttribute("required"));
+    });
 
-        if(selectedFields){
-            selectedFields.style.display = "block";
-            selectedFields.querySelectorAll("input")
-                .forEach(input => input.setAttribute("required","required"));
-        }
+    const selectedFields = document.getElementById(`${role}-fields`);
 
-        roleButtons.forEach(btn => btn.classList.remove("active"));
-
-        const activeBtn = document.querySelector(`[data-role="${role}"]`);
-        if(activeBtn){
-            activeBtn.classList.add("active");
-        }
+    if(selectedFields){
+        selectedFields.style.display = "block";
+        selectedFields.querySelectorAll("input")
+            .forEach(input => input.setAttribute("required","required"));
     }
 
-    if(roleButtons.length > 0){
+    roleButtons.forEach(btn => btn.classList.remove("active"));
 
-        roleButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                updateRoleFields(button.dataset.role);
+    const activeBtn = document.querySelector(`[data-role="${role}"]`);
+    if(activeBtn){
+        activeBtn.classList.add("active");
+    }
+
+}
+
+roleButtons.forEach(button=>{
+    button.addEventListener("click",()=>{
+        updateRoleFields(button.dataset.role);
+    });
+});
+
+updateRoleFields(selectedRole);
+
+
+// =========================
+// REGISTER MODULE
+// =========================
+
+const registerForm = document.getElementById("signupForm");
+
+if(!registerForm) return;
+
+registerForm.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const phone = document.getElementById("phone").value;
+
+    const roleBtn = document.querySelector(".role-button.active");
+
+    const role = roleBtn ? roleBtn.dataset.role : null;
+
+    if(!role)
+        return Swal.fire("Error","Select role","error");
+
+    if(!email.includes("@"))
+        return Swal.fire("Error","Invalid email","error");
+
+    if(password.length < 6)
+        return Swal.fire("Error","Password minimum 6 characters","error");
+
+    if(password !== confirmPassword)
+        return Swal.fire("Error","Passwords do not match","error");
+
+
+    let payload = {
+        email,
+        password,
+        phone,
+        organizationName:
+            document.querySelector(`#${role}-fields input[name="organizationName"]`)?.value || "",
+
+        address:
+            document.querySelector(`#${role}-fields input[name="address"]`)?.value || "",
+
+        gstNumber:
+            document.querySelector(`#${role}-fields input[name="gstNumber"]`)?.value || ""
+    };
+
+
+    try{
+
+        const res = await fetch(
+            `${BASE_URL}/api/register/${role}`,
+            {
+                method:"POST",
+                credentials:"include",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(payload)
+            }
+        );
+
+        const result = await res.text();
+
+        if(res.ok){
+
+            Swal.fire("Success","Registration successful","success")
+            .then(()=>{
+                window.location.href="Login.html";
             });
-        });
 
-        updateRoleFields(selectedRole);
+        }
+        else{
+
+            Swal.fire("Error","Register failed : "+result,"error");
+
+        }
+
     }
+    catch(err){
 
-
-    // ===== REGISTER =====
-    const registerForm = document.getElementById("signupForm");
-
-    if(registerForm){
-
-        registerForm.addEventListener("submit", async function(e){
-
-            e.preventDefault();
-
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-            const phone = document.getElementById("phone").value;
-
-            const selectedRoleBtn =
-                document.querySelector(".role-button.active");
-
-            const selectedRole =
-                selectedRoleBtn ? selectedRoleBtn.dataset.role : null;
-
-            if(!selectedRole)
-                return Swal.fire("Error","Select role","error");
-
-            if(!email.includes("@"))
-                return Swal.fire("Error","Invalid email","error");
-
-            if(password.length < 6)
-                return Swal.fire("Error","Password min 6 chars","error");
-
-            if(password !== confirmPassword)
-                return Swal.fire("Error","Passwords mismatch","error");
-
-            let payload = { email,password,phone };
-
-            if(selectedRole === "admin"){
-                const username =
-                    document.getElementById("username").value;
-
-                if(!username)
-                    return Swal.fire("Error","Username required","error");
-
-                payload.username = username;
-            }
-
-            if(selectedRole === "manufacturer" ||
-               selectedRole === "wholesaler"){
-
-                payload.organizationName =
-                    document.querySelector(`#${selectedRole}-fields input[name="organizationName"]`)?.value || "";
-
-                payload.address =
-                    document.querySelector(`#${selectedRole}-fields input[name="address"]`)?.value || "";
-
-                payload.gstNumber =
-                    document.querySelector(`#${selectedRole}-fields input[name="gstNumber"]`)?.value || "";
-            }
-
-            try{
-
-                const res = await fetch(
-                    `${BASE_URL}/api/register/${selectedRole}`,
-                    {
-                        method:"POST",
-                        credentials:"include",
-                        headers:{
-                            "Content-Type":"application/json"
-                        },
-                        body:JSON.stringify(payload)
-                    }
-                );
-
-                const result = await res.text();
-
-                if(res.ok){
-                    Swal.fire("Success","Registered","success")
-                        .then(()=> window.location.href="Login.html");
-                }
-                else{
-                    Swal.fire("Error","Register failed: "+result,"error");
-                }
-
-            }
-            catch(err){
-                console.error(err);
-                Swal.fire("Error","Server error","error");
-            }
-
-        });
+        console.error(err);
+        Swal.fire("Error","Server error","error");
 
     }
 
 });
 
+});
 
 // =========================
 // LOGIN MODULE
 // =========================
 document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById("loginForm");
+const form = document.getElementById("loginForm");
 
-    if(!form) return;
+if(!form) return;
 
-    form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-        try{
+    try{
 
-            const response = await fetch(
-                `${BASE_URL}/api/auth/login`,
-                {
-                    method:"POST",
-                    headers:{
-                        "Content-Type":"application/json"
-                    },
-                    credentials:"include",
-                    body:JSON.stringify({email,password})
-                }
-            );
+        const response = await fetch(
+            `${BASE_URL}/api/auth/login`,
+            {
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                credentials:"include",
+                body:JSON.stringify({email,password})
+            }
+        );
 
-            if(!response.ok)
-                throw new Error("Login Failed");
+        if(!response.ok)
+            throw new Error("Login Failed");
 
-            const data = await response.json();
-            const role = data.role;
+        const data = await response.json();
 
-            Swal.fire({
-                icon:"success",
-                title:"Login Success"
-            }).then(()=>{
+        const role = data.role;
 
-                if(role === "ADMIN")
-                    window.location.href="admindashboard.html";
+        Swal.fire({
+            icon:"success",
+            title:"Login Success"
+        }).then(()=>{
 
-                else if(role === "MANUFACTURER")
-                    window.location.href="manufacturerdashboard.html";
+            if(role === "ADMIN")
+                window.location.href="admindashboard.html";
 
-                else if(role === "WHOLESALER")
-                    window.location.href="wholesalerdashboard.html";
+            else if(role === "MANUFACTURER")
+                window.location.href="manufacturerdashboard.html";
 
-                else
-                    Swal.fire("Error","Unknown role","error");
+            else if(role === "WHOLESALER")
+                window.location.href="wholesalerdashboard.html";
 
-            });
+            else
+                Swal.fire("Error","Unknown role","error");
 
-        }
-        catch(error){
-            console.error("LOGIN ERROR:",error);
-            Swal.fire("Error","Login failed","error");
-        }
+        });
 
-    });
+    }
+    catch(error){
+
+        console.error("LOGIN ERROR:",error);
+        Swal.fire("Error","Login failed","error");
+
+    }
+
+});
 
 });
