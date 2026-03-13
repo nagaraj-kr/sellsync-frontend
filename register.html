@@ -26,7 +26,7 @@
         </ul>
         <div class="icon" id="menuIcon">&#9776;</div>
     </div>
-<div class="signup-container">    
+<div class="signup-container">   
     <div class="reg-container" id="container">
         <div class="form-panel">
             <div class="form">
@@ -34,79 +34,60 @@
                 <div class="role-selection">
                     <label>Select Your Role</label>
                     <div class="role-options">
-                        <button class="role-button" data-role="manufacturer">Manufacturer</button>
-                        <button class="role-button" data-role="wholesaler">Wholesaler</button>
+                        <button type="button" class="role-button active" data-role="manufacturer">Manufacturer</button>
+                        <button type="button" class="role-button" data-role="wholesaler">Wholesaler</button>
                     </div>
                 </div>
-  <form id="signupForm" action="http://localhost:8080/register" method="post">
-    <!-- Manufacturer Fields -->
-    <div id="manufacturer-fields" class="role-fields">
-        <div class="input-group">
-            <i class='bx bxs-building'></i>
-            <input type="text" name="organizationName" placeholder="Organization Name" required>
-        </div>
-        <div class="input-group">
-            <i class='bx bxs-map'></i>
-            <input type="text" name="address" placeholder="Address" required>
-        </div>
-        <div class="input-group">
-            <i class='bx bxs-id-card'></i>
-            <input type="text" name="gstNumber" placeholder="GST Number" required>
-        </div>
-    </div>
 
-    <!-- Wholesaler Fields -->
-    <div id="wholesaler-fields" class="role-fields">
-        <div class="input-group">
-            <i class='bx bxs-building'></i>
-            <input type="text" name="organizationName" placeholder="Organization Name" required>
-        </div>
-        <div class="input-group">
-            <i class='bx bxs-map'></i>
-            <input type="text" name="address" placeholder="Address" required>
-        </div>
-        <div class="input-group">
-            <i class='bx bxs-id-card'></i>
-            <input type="text" name="gstNumber" placeholder="GST Number" required>
-        </div>
-    </div>
-    <!-- Common field -->
-   
-    <div class="input-group">
-        <i class='bx bx-envelope'></i>
-        <input type="email" name="email" id="email" placeholder="Email" required>
-    </div>
-      
-    <div class="input-group">
-        <i class='bx bx-phone'></i>
-        <input type="tel" name="phone" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
-    </div>
+                <form id="signupForm">
+                    <div id="business-fields">
+                        <div class="input-group">
+                            <i class='bx bxs-building'></i>
+                            <input type="text" id="orgName" name="organizationName" placeholder="Organization Name" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-map'></i>
+                            <input type="text" id="address" name="address" placeholder="Address" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-id-card'></i>
+                            <input type="text" id="gstNumber" name="gstNumber" placeholder="GST Number" required>
+                        </div>
+                    </div>
 
-    
-    <div class="input-group">
-        <i class='bx bxs-lock-alt'></i>
-        <input type="password" name="password" id="password" placeholder="Password" required>
-    </div>
+                    <div class="input-group">
+                        <i class='bx bx-envelope'></i>
+                        <input type="email" name="email" id="email" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class='bx bx-phone'></i>
+                        <input type="tel" name="phone" id="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
+                    </div>
 
-    <div class="input-group">
-        <i class='bx bxs-lock-alt'></i>
-        <input type="password" name="confirmpassword" id="confirmPassword" placeholder="Confirm Password" required>
-    </div>
+                    <div class="input-group">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
 
+                    <div class="input-group">
+                        <i class='bx bxs-lock-alt'></i>
+                        <input type="password" name="confirmpassword" id="confirmPassword" placeholder="Confirm Password" required>
+                    </div>
 
-    <div class="signup-btn">
-        <button type="submit">Sign Up</button>
-    </div>
-</form>
-
+                    <div class="signup-btn">
+                        <button type="submit">Sign Up</button>
+                    </div>
+                </form>
                 <p>Already have an account? <a href="Login.html">Sign in</a></p>
             </div>
         </div>
     </div>
-    <div class="reg-welcome">
-        <h1>JOIN WITH US</h1>
-    </div>
 </div>
+
+
+
+
     
           <div class="footer">
     <div class="company-information">
