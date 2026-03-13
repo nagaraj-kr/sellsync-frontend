@@ -34,20 +34,11 @@
                 <div class="role-selection">
                     <label>Select Your Role</label>
                     <div class="role-options">
-                        <button class="role-button active" data-role="admin">Admin</button>
                         <button class="role-button" data-role="manufacturer">Manufacturer</button>
                         <button class="role-button" data-role="wholesaler">Wholesaler</button>
                     </div>
                 </div>
   <form id="signupForm" action="http://localhost:8080/register" method="post">
-    <!-- Admin-specific -->
-    <div id="admin-fields" class="role-fields">
-        <div class="input-group">
-            <i class='bx bx-user'></i>
-            <input type="text" name="username" id="username" placeholder="Username" required>
-        </div>
-    </div>
-
     <!-- Manufacturer Fields -->
     <div id="manufacturer-fields" class="role-fields">
         <div class="input-group">
