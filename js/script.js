@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
                 console.error("LOGIN ERROR:", error);
-                Swal.fire("Error", "Invalid Email or Password", error);
+                Swal.fire("Error", "Invalid Email or Password", "error");
             }
         });
     }
