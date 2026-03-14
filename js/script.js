@@ -109,7 +109,7 @@
 //         });
 //     }
 // });
-const BASE_URL = "https://sellsync-backend-production.up.railway.app";
+const BASE_URL = "https://sellsync-backend.onrender.com";
 
 document.addEventListener("DOMContentLoaded", function () {
     
