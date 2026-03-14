@@ -779,6 +779,10 @@ function activateWholesaler(id) {
      document.addEventListener("DOMContentLoaded", () => {
   // 🚀 Fetch currently logged-in admin info on page load
   fetch(`${BASE_URL}/api/admin/settings/current`,{
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    },
      credentials:"include"
   })
     .then(response => {
