@@ -1,5 +1,5 @@
 
-const BASE_URL = "https://sellsync-backend-production.up.railway.app";
+const BASE_URL = "https://sellsync-backend.onrender.com";
 // ✅ Helpers
 const $ = (sel) => document.querySelector(sel);
 const $all = (sel) => document.querySelectorAll(sel);
