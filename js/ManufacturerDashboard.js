@@ -103,9 +103,9 @@ function loadDashboardStats() {
   fetch(`${BASE_URL}/api/manufacturer/profile`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
+      'Content-Type': 'application/json'
+    },
+    credentials: "include"
   })
     .then(response => {
       if (!response.ok) {
@@ -166,9 +166,10 @@ function loadRecentPendingOrders() {
   fetch(`${BASE_URL}/api/orders/manufacturer/orders`, {
     method: "GET",
     headers: {
-      "Authorization": "Bearer " + token
-    }
-  })
+        'Content-Type': 'application/json'
+    },
+    credentials: "include"
+    })
     .then(res => {
       if (!res.ok) {
         throw new Error("Failed to fetch orders.");
