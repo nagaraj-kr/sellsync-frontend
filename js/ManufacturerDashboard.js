@@ -282,28 +282,55 @@ saveProductBtn.addEventListener("click", () => {
     : `${BASE_URL}/api/products`;
   const method = isEdit ? "PUT" : "POST";
 
-  fetch(url, { method, body: formData, credentials:"include" })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to save product");
-      return res.json();
-    })
-    .then(() => {
+  // fetch(url, { method, body: formData, credentials:"include" })
+  //   .then(res => {
+  //     if (!res.ok) throw new Error("Failed to save product");
+  //     return res.json();
+  //   })
+  //   .then(() => {
+  //     addProductModal.style.display = "none";
+  //     clearForm();
+  //     loadProducts(); // reload table
+  //     Swal.fire({
+  //       title: isEdit ? "Product Updated" : "Product Added",
+  //       text: isEdit
+  //         ? "The product has been successfully updated."
+  //         : "The new product has been successfully added.",
+  //       icon: "success"
+  //     });
+  //     editingProductId = null;
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     Swal.fire("Error", "Failed to save product.", "error");
+  //   });
+
+  // 3. Fetch Call
+  fetch(url, { 
+    method: method, 
+    body: formData, // ⚠️ Headers-la "Content-Type" poda koodaadhu! Browser automatic-ah set pannum.
+    credentials: "include" 
+  })
+  .then(res => {
+    if (res.status === 403) {
+        throw new Error("403: Security Blocked! Check permitAll in Backend.");
+    }
+    if (!res.ok) throw new Error("Failed to save product.");
+    return res.json();
+  })
+  .then(data => {
+    if (data) {
       addProductModal.style.display = "none";
       clearForm();
-      loadProducts(); // reload table
-      Swal.fire({
-        title: isEdit ? "Product Updated" : "Product Added",
-        text: isEdit
-          ? "The product has been successfully updated."
-          : "The new product has been successfully added.",
-        icon: "success"
-      });
-      editingProductId = null;
-    })
-    .catch(err => {
-      console.error(err);
-      Swal.fire("Error", "Failed to save product.", "error");
-    });
+      loadProducts(); // Table-ah refresh pannum
+      Swal.fire("Success", "Product saved successfully!", "success");
+    }
+  })
+  .catch(err => {
+    console.error("❌ Error:", err);
+    Swal.fire("Error", err.message, "error");
+  });
+});
 });
 
 // ✅ Open modal for Add Product
