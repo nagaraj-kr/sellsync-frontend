@@ -1,4 +1,4 @@
-const BASE_URL = "https://sellsync-backend-production.up.railway.app";
+const BASE_URL = "https://sellsync-backend.onrender.com";
 // ======================= CONFIG ===========================
 const apiBaseUrl = `${BASE_URL}`;
 let cartItems = [];
