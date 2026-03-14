@@ -304,7 +304,6 @@ saveProductBtn.addEventListener("click", () => {
   //     console.error(err);
   //     Swal.fire("Error", "Failed to save product.", "error");
   //   });
-
   // 3. Fetch Call
   fetch(url, { 
     method: method, 
@@ -330,7 +329,6 @@ saveProductBtn.addEventListener("click", () => {
     console.error("❌ Error:", err);
     Swal.fire("Error", err.message, "error");
   });
-});
 });
 
 // ✅ Open modal for Add Product
