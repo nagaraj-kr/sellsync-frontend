@@ -1,5 +1,5 @@
 
-const BASE_URL = "https://sellsync-backend-production.up.railway.app";
+const BASE_URL = "https://sellsync-backend.onrender.com";
 
 function loadRequests() {
   fetch(`${BASE_URL}/api/requests/all`,{
@@ -778,7 +778,7 @@ function activateWholesaler(id) {
      
      document.addEventListener("DOMContentLoaded", () => {
   // 🚀 Fetch currently logged-in admin info on page load
-  fetch("/api/admin/settings/current",{
+  fetch(`${BASE_URL}/api/admin/settings/current`,{
      credentials:"include"
   })
     .then(response => {
@@ -825,7 +825,7 @@ function saveProfile() {
     phone: document.getElementById('phone').value
   };
 
-  fetch("/api/admin/settings/update-profile", {
+  fetch(`${BASE_URL}/api/admin/settings/update-profile`, {
     method: "PUT",
      credentials:"include",
     headers: {
@@ -888,7 +888,7 @@ function changePassword() {
     newPassword: newPassword
   };
 
-  fetch("/api/admin/settings/change-password", {
+  fetch(`${BASE_URL}/api/admin/settings/change-password`, {
     method: "PUT",
      credentials:"include",
     headers: { "Content-Type": "application/json" },
