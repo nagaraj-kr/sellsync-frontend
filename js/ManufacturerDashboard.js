@@ -428,9 +428,10 @@ function loadProducts() {
       }
 
       activeProducts.forEach(product => {
-        const imgSrc = product.imageUrl
-          ? `${BASE_URL}${product.imageUrl}`
-          : "/images/question.png";
+        // const imgSrc = product.imageUrl
+        //   ? `${BASE_URL}${product.imageUrl}`
+        //   : "/images/question.png";
+        const imgSrc = product.imageUrl ? product.imageUrl : "/images/question.png";
 
         const row = document.createElement("tr");
         row.innerHTML = `
