@@ -535,7 +535,7 @@ function setupCheckout() {
     .then(res => res.json())
     .then(orderData => {
       const options = {
-        key: "rzp_test_zL7hUYsaWYLQLJ",
+        key: "rzp_test_SR1OK9rwUGh0cU",
         amount: orderData.amount,
         currency: orderData.currency,
         name: "SellSync",
