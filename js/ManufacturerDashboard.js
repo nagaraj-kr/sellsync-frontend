@@ -641,8 +641,12 @@ function handleAction(orderId, status) {
   fetch(`${BASE_URL}/api/orders/${orderId}/status`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ status: status })
-  })
+    body: JSON.stringify({ status: status }),
+    credentials: 'include'
+  }).then(res => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json();
+    })
     .then(res => res.json())
     .then(updatedOrder => {
       console.log(`✅ Order ${orderId} updated to ${status}`, updatedOrder);
