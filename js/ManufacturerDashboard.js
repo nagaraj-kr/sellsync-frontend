@@ -254,7 +254,7 @@ const toBase64 = file => new Promise((resolve, reject) => {
 });
 
 // ✅ Save/Add/Edit product
-saveProductBtn.addEventListener("click", () => {
+saveProductBtn.addEventListener("click", async () => {
   const name = document.getElementById("productName").value.trim();
   const category = document.getElementById("productCategory").value.trim();
   const price = document.getElementById("productPrice").value.trim();
