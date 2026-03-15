@@ -245,6 +245,14 @@ function clearForm() {
   editingProductId = null;
 }
 
+// base 64 convert
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
 // ✅ Save/Add/Edit product
 saveProductBtn.addEventListener("click", () => {
   const name = document.getElementById("productName").value.trim();
@@ -267,20 +275,62 @@ saveProductBtn.addEventListener("click", () => {
     Swal.fire("Validation Error", "Stock must be a non-negative integer.", "warning");
     return;
   }
+  let base64Image = "";
+  if (imageFile) {
+        base64Image = await toBase64(imageFile); // ⭐ Convert image to string
+  }
 
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("category", category);
-  formData.append("price", parseFloat(price));
-  formData.append("stock", parseInt(stock));
-  formData.append("description", description);
-  if (imageFile) formData.append("image", imageFile);
+  const productPayload = {
+        name: name,
+        category: category,
+        price: parseFloat(price),
+        stock: parseInt(stock),
+        description: description,
+        imageUrl: base64Image // ⭐ Send Base64 string in imageUrl field
+    };
 
-  const isEdit = editingProductId !== null;
-  const url = isEdit
-    ? `${BASE_URL}/api/products/${editingProductId}`
-    : `${BASE_URL}/api/products`;
-  const method = isEdit ? "PUT" : "POST";
+    const isEdit = editingProductId !== null;
+    const url = isEdit
+        ? `${BASE_URL}/api/products/${editingProductId}`
+        : `${BASE_URL}/api/products`;
+    const method = isEdit ? "PUT" : "POST";
+
+    fetch(url, { 
+        method: method, 
+        headers: { "Content-Type": "application/json" }, // ⭐ JSON headers
+        body: JSON.stringify(productPayload),
+        credentials: "include" 
+    })
+    .then(res => {
+        if (res.status === 403) throw new Error("403: Security Blocked!");
+        if (!res.ok) throw new Error("Failed to save product.");
+        return res.json();
+    })
+    .then(data => {
+        if (data) {
+            addProductModal.style.display = "none";
+            clearForm();
+            loadProducts(); 
+            Swal.fire("Success", "Product saved successfully!", "success");
+        }
+    })
+    .catch(err => {
+        console.error("❌ Error:", err);
+        Swal.fire("Error", err.message, "error");
+    });
+  // const formData = new FormData();
+  // formData.append("name", name);
+  // formData.append("category", category);
+  // formData.append("price", parseFloat(price));
+  // formData.append("stock", parseInt(stock));
+  // formData.append("description", description);
+  // if (imageFile) formData.append("image", imageFile);
+
+  // const isEdit = editingProductId !== null;
+  // const url = isEdit
+  //   ? `${BASE_URL}/api/products/${editingProductId}`
+  //   : `${BASE_URL}/api/products`;
+  // const method = isEdit ? "PUT" : "POST";
 
   // fetch(url, { method, body: formData, credentials:"include" })
   //   .then(res => {
@@ -305,30 +355,30 @@ saveProductBtn.addEventListener("click", () => {
   //     Swal.fire("Error", "Failed to save product.", "error");
   //   });
   // 3. Fetch Call
-  fetch(url, { 
-    method: method, 
-    body: formData, // ⚠️ Headers-la "Content-Type" poda koodaadhu! Browser automatic-ah set pannum.
-    credentials: "include" 
-  })
-  .then(res => {
-    if (res.status === 403) {
-        throw new Error("403: Security Blocked! Check permitAll in Backend.");
-    }
-    if (!res.ok) throw new Error("Failed to save product.");
-    return res.json();
-  })
-  .then(data => {
-    if (data) {
-      addProductModal.style.display = "none";
-      clearForm();
-      loadProducts(); // Table-ah refresh pannum
-      Swal.fire("Success", "Product saved successfully!", "success");
-    }
-  })
-  .catch(err => {
-    console.error("❌ Error:", err);
-    Swal.fire("Error", err.message, "error");
-  });
+  // fetch(url, { 
+  //   method: method, 
+  //   body: formData, // ⚠️ Headers-la "Content-Type" poda koodaadhu! Browser automatic-ah set pannum.
+  //   credentials: "include" 
+  // })
+  // .then(res => {
+  //   if (res.status === 403) {
+  //       throw new Error("403: Security Blocked! Check permitAll in Backend.");
+  //   }
+  //   if (!res.ok) throw new Error("Failed to save product.");
+  //   return res.json();
+  // })
+  // .then(data => {
+  //   if (data) {
+  //     addProductModal.style.display = "none";
+  //     clearForm();
+  //     loadProducts(); // Table-ah refresh pannum
+  //     Swal.fire("Success", "Product saved successfully!", "success");
+  //   }
+  // })
+  // .catch(err => {
+  //   console.error("❌ Error:", err);
+  //   Swal.fire("Error", err.message, "error");
+  // });
 });
 
 // ✅ Open modal for Add Product
