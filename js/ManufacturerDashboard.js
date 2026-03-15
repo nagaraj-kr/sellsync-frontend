@@ -813,7 +813,8 @@ document.getElementById("changePasswordBtn").addEventListener("click", async fun
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+      body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
+      credentials: "include"
     });
 
     if (response.ok) {
